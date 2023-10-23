@@ -1,0 +1,32 @@
+name: Tests
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: '11'
+
+    - name: Build M1 with Ant
+      run: 
+        cd M1 && ant -buildfile build.xml
+
+    - name: run M1 tests
+      run: 
+        cd M1 && ant -buildfile build.xml test
+
+    - name: Build M2 with Ant
+      run: 
+        cd M2 && ant -buildfile build.xml
+
+    # - name: run M2 tests
+    #   run: 
+    #     cd M2 && ant -buildfile build.xml test
